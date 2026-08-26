@@ -237,6 +237,51 @@
       .cta-card h2 { font-size: 3rem; }
       .footer-row { align-items: start; flex-direction: column; }
     }
+
+    .telegram-showcase { background: var(--paper-deep); }
+    .telegram-showcase .section-head { align-items: end; }
+    .telegram-showcase .section-head > div { max-width: 650px; }
+    .telegram-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 16px; }
+    .telegram-card { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255, 255, 255, .4); }
+    .telegram-card-featured { grid-row: span 2; }
+    .telegram-shot { display: flex; flex-direction: column; height: 100%; margin: 0; overflow: hidden; border-radius: calc(var(--radius-lg) - 8px); background: #17221e; }
+    .telegram-shot img { display: block; width: 100%; min-height: 280px; flex: 1; object-fit: cover; object-position: center top; }
+    .telegram-card-featured .telegram-shot img { min-height: 600px; }
+    .telegram-shot figcaption { display: grid; gap: 7px; padding: 20px 20px 21px; color: var(--paper); }
+    .telegram-label { color: var(--signal); font-size: .66rem; font-weight: 850; letter-spacing: .14em; }
+    .telegram-shot figcaption strong { font-size: 1.15rem; letter-spacing: -.035em; }
+    .telegram-shot figcaption span:last-child { color: rgba(243, 241, 233, .65); font-size: .78rem; line-height: 1.45; }
+    .telegram-join-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
+    .qr-card { display: grid; grid-template-columns: 142px 1fr; align-items: center; gap: 24px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); }
+    .qr-card-accent { background: var(--ink); color: var(--paper); }
+    .qr-card-accent .eyebrow { color: var(--signal); }
+    .qr-art { display: block; padding: 10px; border-radius: 17px; background: white; }
+    .qr-art img { display: block; width: 100%; height: auto; }
+    .qr-copy h3 { margin-bottom: 8px; font-size: 1.5rem; line-height: 1; letter-spacing: -.06em; }
+    .qr-copy p { max-width: 290px; margin-bottom: 15px; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .qr-card-accent .qr-copy p { color: rgba(243, 241, 233, .67); }
+    .qr-copy .eyebrow { margin-bottom: 10px; }
+    .qr-copy .button-secondary { padding-left: 0; }
+    .qr-card-accent .button-secondary { color: var(--paper); }
+    .inline-link { text-decoration: underline; text-underline-offset: 3px; }
+    .telegram-disclaimer { margin: 24px 0 0; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+
+    @media (max-width: 900px) {
+      .telegram-card-featured { grid-row: auto; }
+      .telegram-card-featured .telegram-shot img { min-height: 340px; }
+      .telegram-shot img { min-height: 260px; }
+    }
+
+    @media (max-width: 680px) {
+      .telegram-showcase .section-head { display: block; }
+      .telegram-showcase .section-head p { margin-top: 22px; }
+      .telegram-grid, .telegram-join-grid { grid-template-columns: 1fr; }
+      .telegram-card-featured .telegram-shot img { min-height: 260px; }
+      .telegram-shot img { min-height: 220px; }
+      .qr-card { grid-template-columns: 112px 1fr; gap: 16px; padding: 13px; }
+      .qr-copy h3 { font-size: 1.28rem; }
+      .qr-copy p { font-size: .76rem; }
+    }
   </style>
 </head>
 <body>
@@ -246,9 +291,10 @@
       <nav class="nav-links" id="nav-links" aria-label="Primary navigation">
         <a href="#how-it-works">How it works</a>
         <a href="#what-you-get">What you get</a>
+        <a href="#telegram">Telegram</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="nav-cta" href="#join">Get Telegram alerts <span aria-hidden="true">↗</span></a>
+      <a class="nav-cta" href="#telegram">Get Telegram alerts <span aria-hidden="true">↗</span></a>
       <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">☰</button>
     </div>
   </header>
@@ -336,6 +382,55 @@
       </div>
     </section>
 
+    <section class="telegram-showcase" id="telegram">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">See it in Telegram</div>
+            <h2>One public feed. One personal alert route.</h2>
+          </div>
+          <p>Browse the open channel for the latest posts, or start the bot to set up a more focused way to notice shifts that fit your plans.</p>
+        </div>
+
+        <div class="telegram-grid">
+          <article class="telegram-card telegram-card-featured reveal">
+            <figure class="telegram-shot">
+              <img src="assets/telegram-channel.png" alt="Telegram channel feed showing UK warehouse shift alerts" loading="lazy">
+              <figcaption><span class="telegram-label">PUBLIC CHANNEL</span><strong>See the latest shift posts in one place.</strong><span>Open feed · location-first alerts · public updates</span></figcaption>
+            </figure>
+          </article>
+          <article class="telegram-card reveal">
+            <figure class="telegram-shot">
+              <img src="assets/telegram-bot.png" alt="Telegram bot start screen for Amazon warehouse jobs UK" loading="lazy">
+              <figcaption><span class="telegram-label">START THE BOT</span><strong>Begin with a simple Telegram chat.</strong><span>Open the bot · follow the setup flow · stay in control</span></figcaption>
+            </figure>
+          </article>
+          <article class="telegram-card reveal">
+            <figure class="telegram-shot">
+              <img src="assets/telegram-alert.png" alt="Telegram alert showing a Portadown warehouse shift with pay and schedule details" loading="lazy">
+              <figcaption><span class="telegram-label">EXAMPLE ALERT</span><strong>Scan the details before you decide.</strong><span>Area · pay · hours · current status</span></figcaption>
+            </figure>
+          </article>
+        </div>
+
+        <div class="telegram-join-grid">
+          <article class="qr-card reveal">
+            <a class="qr-art" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram channel">
+              <img src="assets/qr-channel.png" alt="QR code to open the ShiftSignal Telegram channel" loading="lazy">
+            </a>
+            <div class="qr-copy"><div class="eyebrow">Channel</div><h3>Follow the public feed.</h3><p>See new warehouse shift posts as they appear.</p><a class="button-secondary" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener">Open channel <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="qr-card qr-card-accent reveal">
+            <a class="qr-art" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram bot">
+              <img src="assets/qr-bot.png" alt="QR code to open the ShiftSignal Telegram bot" loading="lazy">
+            </a>
+            <div class="qr-copy"><div class="eyebrow">Bot</div><h3>Get a more personal route.</h3><p>Start the bot and use Telegram to manage your alert preferences.</p><a class="button-secondary" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener">Start the bot <span aria-hidden="true">↗</span></a></div>
+          </article>
+        </div>
+        <p class="telegram-disclaimer">ShiftSignal is independent. Telegram is used for delivery, and availability should always be checked before applying.</p>
+      </div>
+    </section>
+
     <section id="faq">
       <div class="shell faq-grid">
         <div class="reveal"><div class="eyebrow">Questions, answered</div><h2>Know before you join.</h2><p>A straightforward service should come with straightforward expectations.</p></div>
@@ -353,7 +448,7 @@
       <div class="shell">
         <div class="cta-card reveal">
           <h2>Your next shift could start with one useful notification.</h2>
-          <div class="cta-action"><a class="button-primary" href="https://telegram.org/" target="_blank" rel="noopener">Open Telegram <span aria-hidden="true">↗</span></a><small>In Telegram, search for “UK Amazon warehouse jobs alert” to find the alert chat.</small></div>
+          <div class="cta-action"><a class="button-primary" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener">Start the alert bot <span aria-hidden="true">↗</span></a><small>Prefer the public feed? <a class="inline-link" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener">Follow the channel instead.</a></small></div>
         </div>
       </div>
     </section>

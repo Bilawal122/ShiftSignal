@@ -70,3 +70,48 @@ h1, h2, h3, p { margin-top: 0; }.hero h1, .landing-hero h1 { max-width: 720px; m
 @media (max-width: 900px) { .container { width: min(100% - 36px, 680px); }.site-nav { gap: 16px; }.hero-grid, .landing-hero-grid, .intro-grid, .compare-grid, .faq-grid, .landing-benefit-grid, .landing-faq-grid, .proof-grid { grid-template-columns: 1fr; gap: 45px; }.hero { min-height: auto; padding-top: 150px; }.alert-demo, .landing-card-wrap { margin: 15px auto 0; }.hero-proof { flex-wrap: wrap; padding-top: 64px; }.feature-grid { grid-template-columns: repeat(2, 1fr); }.feature-card-featured { grid-column: span 2; }.feature-card h3 { margin-top: 45px; }.compare-intro { max-width: 580px; }.cta-panel { align-items: start; flex-direction: column; }.landing-hero { min-height: auto; padding-top: 150px; }.landing-card-wrap { margin-top: 22px; }.landing-faq-grid { gap: 35px; }.intro-copy { padding-top: 0; }.proof-stats { max-width: 540px; } }
 @media (max-width: 640px) { .container { width: min(100% - 30px, 520px); }.nav-wrap { min-height: 72px; }.site-nav { position: absolute; top: 64px; right: 15px; left: 15px; display: none; flex-direction: column; align-items: stretch; gap: 2px; padding: 10px; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: var(--paper); box-shadow: var(--shadow); }.site-header .site-nav .button { margin-top: 7px; }.site-header .site-nav.open { display: flex; }.site-header .site-nav > a:not(.button) { padding: 11px 9px; }.menu-toggle { display: block; }.site-nav-always { position: static; display: flex; flex-direction: row; gap: 9px; padding: 0; border: 0; background: transparent; box-shadow: none; }.site-nav-always .text-link { display: none; }.site-nav-always .button { margin: 0 !important; }.site-header:has(.site-nav.open) { color: var(--ink); background: var(--paper); }.landing-header:has(.site-nav.open) { background: var(--paper); }.hero, .landing-hero { padding-top: 125px; padding-bottom: 55px; }.hero h1, .landing-hero h1 { font-size: clamp(3.25rem, 16vw, 5rem); }.hero-lede { font-size: 16px; }.hero-proof { display: block; font-size: 9px; line-height: 1.8; }.proof-line { display: inline-block; margin: 0 8px 2px; }.alert-demo { transform: rotate(0); }.message-stack { min-height: 295px; }.section { padding: 82px 0; }.section-heading h2, .intro-grid h2, .compare-intro h2, .faq-intro h2, .cta-panel h2, .landing-benefit-grid h2, .landing-faq-grid h2, .landing-final-panel h2 { font-size: clamp(2.4rem, 12vw, 3.4rem); }.split-heading { display: block; }.split-heading > p { margin-top: 20px; }.steps-grid, .feature-grid { grid-template-columns: 1fr; gap: 0; }.step-card { min-height: 0; padding: 26px 0 32px; }.step-icon { margin-top: 27px; }.feature-card, .feature-card-featured { grid-column: auto; min-height: 300px; margin-top: 10px; }.feature-card h3 { margin-top: 55px; }.compare-section { padding: 80px 0; }.compare-row { grid-template-columns: .8fr 1fr 1fr; gap: 10px; font-size: 11px; }.compare-header { font-size: 8px; }.cta-section { padding: 10px 0 80px; }.cta-panel { padding: 30px 24px; border-radius: 20px; }.footer-top, .footer-bottom { display: block; }.footer-links { margin-top: 28px; }.footer-bottom span { display: block; margin-top: 8px; }.landing-card { transform: rotate(0); }.proof-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }.proof-stats div { padding: 12px 7px; }.proof-stats strong { font-size: 31px; }.proof-stats span { font-size: 9px; }.legal-page { padding-top: 120px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.button { transition: none; }.alert-demo, .landing-card { transform: none; } }
+
+.telegram-showcase { color: var(--ink); }
+.telegram-section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 50px; }
+.telegram-section-head h2 { max-width: 650px; margin: 0; font-family: var(--display); font-size: clamp(2.4rem, 4vw, 4.2rem); font-weight: 800; letter-spacing: -.07em; line-height: .98; }
+.telegram-section-head > p { max-width: 360px; margin: 0 0 3px; color: var(--ink-muted); font-size: 14px; line-height: 1.6; }
+.telegram-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 16px; }
+.telegram-card { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 27px; background: rgba(255, 253, 247, .58); }
+.telegram-card-featured { grid-row: span 2; }
+.telegram-shot { display: flex; flex-direction: column; height: 100%; margin: 0; overflow: hidden; border-radius: 20px; background: var(--ink); }
+.telegram-shot img { display: block; width: 100%; min-height: 280px; flex: 1; object-fit: cover; object-position: center top; }
+.telegram-card-featured .telegram-shot img { min-height: 600px; }
+.telegram-shot figcaption { display: grid; gap: 7px; padding: 20px 20px 21px; color: var(--paper); }
+.telegram-label { color: var(--mint); font-size: 10px; font-weight: 900; letter-spacing: .14em; }
+.telegram-shot figcaption strong { font-size: 17px; letter-spacing: -.035em; }
+.telegram-shot figcaption span:last-child { color: rgba(255, 253, 247, .64); font-size: 12px; line-height: 1.45; }
+.telegram-join-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
+.qr-card { display: grid; grid-template-columns: 142px 1fr; align-items: center; gap: 24px; padding: 18px; border: 1px solid var(--line); border-radius: 27px; background: var(--paper); }
+.qr-card-accent { color: var(--paper); background: var(--ink-soft); }
+.qr-card-accent .eyebrow { color: var(--mint); }
+.qr-art { display: block; padding: 10px; border-radius: 17px; background: white; }
+.qr-art img { display: block; width: 100%; height: auto; }
+.qr-copy h3 { margin-bottom: 8px; font-family: var(--display); font-size: 24px; line-height: 1; letter-spacing: -.06em; }
+.qr-copy p { max-width: 290px; margin-bottom: 15px; color: var(--ink-muted); font-size: 13px; line-height: 1.5; }
+.qr-card-accent .qr-copy p { color: rgba(255, 253, 247, .67); }
+.qr-copy .eyebrow { margin-bottom: 10px; }
+.qr-copy .button-secondary { padding-left: 0; }
+.qr-card-accent .button-secondary { color: var(--paper); }
+.telegram-disclaimer { margin: 24px 0 0; color: var(--ink-muted); font-size: 11px; line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .telegram-section-head { align-items: start; flex-direction: column; }
+  .telegram-card-featured { grid-row: auto; }
+  .telegram-card-featured .telegram-shot img { min-height: 340px; }
+  .telegram-shot img { min-height: 260px; }
+}
+
+@media (max-width: 640px) {
+  .telegram-section-head { gap: 22px; }
+  .telegram-grid, .telegram-join-grid { grid-template-columns: 1fr; }
+  .telegram-card-featured .telegram-shot img { min-height: 260px; }
+  .telegram-shot img { min-height: 220px; }
+  .qr-card { grid-template-columns: 112px 1fr; gap: 16px; padding: 13px; }
+  .qr-copy h3 { font-size: 20px; }
+  .qr-copy p { font-size: 12px; }
+}

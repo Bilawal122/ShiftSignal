@@ -10,6 +10,7 @@ Static, responsive marketing pages for a Telegram bot that helps workers find an
 - `script.js` — mobile navigation and analytics-ready CTA events.
 - `privacy.html` and `terms.html` — clearly marked launch placeholders.
 - `robots.txt` and `sitemap.xml` — SEO starter files; replace `example.com`.
+- `assets/` — public Telegram captures and QR codes for the channel and bot showcase.
 
 ## Run locally
 
@@ -24,12 +25,14 @@ Then visit `http://127.0.0.1:4173/`.
 
 ## Before launch
 
-1. Replace every `https://t.me/shift_signal_bot...` link with the live bot username and keep the `start=` values if you want campaign attribution.
+1. The Telegram showcase uses the live public channel at `https://t.me/Amazonwarehousejobb` and bot at `https://t.me/Amazon_warehouse_ukbot`.
 2. Replace `example.com` in `robots.txt` and `sitemap.xml` with the real domain.
 3. Replace `hello@example.com` with a monitored support address.
 4. Finalize `privacy.html` and `terms.html` with qualified legal review. The current pages are placeholders, not legal advice.
 5. Add a consent-aware Google tag or Google Tag Manager snippet before the closing `</head>` tag. `script.js` already emits `telegram_click` with a `cta_location` value when `gtag` or `dataLayer` is present.
 6. Add canonical URLs and Open Graph image assets once the domain is known.
+
+The homepage and campaign page now include a Telegram showcase with channel, bot, and example-alert captures, plus separate QR codes that link directly to the public destinations.
 
 ## Suggested Google Ads setup
 
@@ -58,5 +61,7 @@ Reviewed August 23, 2026. Comparable worker-shift products generally lead with f
 Use the competitor names above as positioning input, not as claims of partnership or endorsement. Re-check product pages and ad policies before publishing campaigns.
 
 
-https://t.me/Amazonwarehousejobb
-@Amazon_warehouse_ukbot
+## Telegram destinations
+
+- Channel: `https://t.me/Amazonwarehousejobb`
+- Bot: `https://t.me/Amazon_warehouse_ukbot` (`@Amazon_warehouse_ukbot`)
