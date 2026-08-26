@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f1e9">
+  <meta name="description" content="ShiftSignal sends clear, local UK warehouse shift alerts to Telegram so you can spend less time refreshing and more time applying.">
+  <meta property="og:title" content="ShiftSignal — Telegram alerts for UK warehouse shifts">
+  <meta property="og:description" content="Get local warehouse shift alerts in Telegram, with the details you need to decide what to do next.">
+  <meta property="og:type" content="website">
+  <title>ShiftSignal — Telegram alerts for UK warehouse shifts</title>
+  <style>
+    :root {
+      --ink: #16221d;
+      --muted: #657069;
+      --paper: #f3f1e9;
+      --paper-deep: #e7e4d9;
+      --signal: #d9ff57;
+      --signal-dark: #a6c82b;
+      --orange: #ff785d;
+      --blue: #2d61ff;
+      --line: rgba(22, 34, 29, .14);
+      --shadow: 0 22px 60px rgba(22, 34, 29, .12);
+      --radius-lg: 32px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      border-bottom: 1px solid rgba(22, 34, 29, .1);
+      background: rgba(243, 241, 233, .86);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 78px;
+      gap: 28px;
+    }
+
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.04em; font-size: 1.05rem; }
+    .brand-mark { position: relative; display: inline-grid; place-items: center; width: 31px; height: 31px; border: 2px solid var(--ink); border-radius: 50%; }
+    .brand-mark::before, .brand-mark::after { content: ""; position: absolute; border: 2px solid var(--ink); border-radius: 50%; }
+    .brand-mark::before { width: 17px; height: 17px; }
+    .brand-mark::after { width: 6px; height: 6px; border: 0; background: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 28px; font-size: .91rem; color: var(--muted); }
+    .nav-links a { transition: color .2s ease; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta, .button-primary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; background: var(--ink); color: var(--paper); padding: 13px 18px; font-size: .88rem; font-weight: 750; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .nav-cta:hover, .button-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(22, 34, 29, .15); }
+    .menu-button { display: none; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 1.4rem; }
+
+    .hero { position: relative; overflow: hidden; padding: 86px 0 76px; }
+    .hero::before { content: ""; position: absolute; width: 520px; height: 520px; right: -210px; top: -230px; border-radius: 50%; background: var(--signal); opacity: .45; filter: blur(3px); }
+    .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(390px, .94fr); align-items: center; gap: 74px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--orange); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 650px; margin-bottom: 23px; font-size: clamp(3.5rem, 7.4vw, 6.55rem); line-height: .9; letter-spacing: -.085em; font-weight: 850; }
+    h1 em { color: var(--orange); font-style: normal; }
+    .hero-copy { max-width: 560px; color: var(--muted); font-size: 1.15rem; line-height: 1.65; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; margin-top: 32px; }
+    .button-primary { padding: 16px 22px; }
+    .button-secondary { display: inline-flex; align-items: center; gap: 8px; padding: 15px 4px; color: var(--ink); font-size: .9rem; font-weight: 780; }
+    .button-secondary span { transition: transform .2s ease; }
+    .button-secondary:hover span { transform: translateX(4px); }
+    .hero-note { display: flex; align-items: center; gap: 9px; margin-top: 25px; color: var(--muted); font-size: .78rem; }
+    .hero-note::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--signal-dark); box-shadow: 0 0 0 5px rgba(166, 200, 43, .18); }
+
+    .signal-stage { position: relative; min-height: 530px; border-radius: var(--radius-lg); background: #1b2822; box-shadow: var(--shadow); overflow: hidden; }
+    .signal-stage::before { content: ""; position: absolute; inset: 0; opacity: .23; background-image: linear-gradient(rgba(217, 255, 87, .12) 1px, transparent 1px), linear-gradient(90deg, rgba(217, 255, 87, .12) 1px, transparent 1px); background-size: 38px 38px; mask-image: linear-gradient(to bottom right, black, transparent 75%); }
+    .stage-top { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 22px 24px; border-bottom: 1px solid rgba(243, 241, 233, .14); color: rgba(243, 241, 233, .67); font-size: .73rem; letter-spacing: .11em; text-transform: uppercase; }
+    .live-pill { display: inline-flex; align-items: center; gap: 7px; color: var(--signal); }
+    .live-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 5px rgba(217, 255, 87, .12); }
+    .alert-card { position: relative; width: calc(100% - 60px); margin: 62px auto 0; padding: 24px; border-radius: 22px; background: var(--paper); box-shadow: 0 24px 35px rgba(0, 0, 0, .25); transform: rotate(-2.2deg); }
+    .alert-kicker { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; font-size: .72rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+    .telegram-dot { display: inline-grid; place-items: center; width: 29px; height: 29px; border-radius: 50%; background: var(--blue); color: white; font-size: .88rem; }
+    .alert-card h2 { margin-bottom: 8px; font-size: clamp(1.85rem, 4vw, 3rem); line-height: .98; letter-spacing: -.065em; }
+    .alert-location { color: var(--muted); font-size: .94rem; }
+    .alert-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 25px; }
+    .meta-chip { padding: 8px 10px; border-radius: 8px; background: var(--paper-deep); color: var(--ink); font-size: .72rem; font-weight: 750; }
+    .alert-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 31px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .72rem; }
+    .alert-footer strong { color: var(--ink); }
+    .stage-orbit { position: absolute; right: 30px; bottom: 28px; width: 145px; height: 145px; border: 1px solid rgba(217, 255, 87, .22); border-radius: 50%; }
+    .stage-orbit::before, .stage-orbit::after { content: ""; position: absolute; border: 1px solid rgba(217, 255, 87, .19); border-radius: 50%; }
+    .stage-orbit::before { inset: 21px; }
+    .stage-orbit::after { inset: 46px; background: var(--orange); border: 0; box-shadow: 0 0 0 10px rgba(255, 120, 93, .13), 0 0 0 24px rgba(255, 120, 93, .06); }
+    .floating-tag { position: absolute; left: 29px; bottom: 31px; max-width: 178px; padding: 12px 14px; border: 1px solid rgba(217, 255, 87, .22); border-radius: 13px; background: rgba(217, 255, 87, .1); color: var(--signal); font-size: .76rem; line-height: 1.35; }
+
+    .ticker { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+    .ticker-track { display: flex; justify-content: space-between; gap: 30px; padding: 22px 0; color: var(--muted); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+    .ticker-track span { display: inline-flex; align-items: center; gap: 12px; }
+    .ticker-track span::before { content: "✳"; color: var(--orange); font-size: .9rem; }
+
+    section { padding: 120px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 50px; }
+    .section-head h2 { max-width: 570px; margin-bottom: 0; font-size: clamp(2.6rem, 5.7vw, 5rem); line-height: .94; letter-spacing: -.075em; }
+    .section-head p { max-width: 360px; margin-bottom: 3px; color: var(--muted); font-size: .98rem; line-height: 1.65; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .step { min-height: 260px; padding: 25px; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255, 255, 255, .24); }
+    .step-number { display: flex; align-items: center; justify-content: space-between; margin-bottom: 54px; color: var(--muted); font-size: .75rem; font-weight: 850; letter-spacing: .12em; }
+    .step-number::after { content: "↗"; display: grid; place-items: center; width: 35px; height: 35px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); font-size: 1rem; }
+    .step h3 { margin-bottom: 11px; font-size: 1.35rem; letter-spacing: -.045em; }
+    .step p { margin-bottom: 0; color: var(--muted); font-size: .91rem; line-height: 1.6; }
+    .step:nth-child(2) { background: var(--signal); border-color: var(--signal); }
+    .step:nth-child(2) .step-number { color: rgba(22, 34, 29, .62); }
+    .step:nth-child(3) { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .step:nth-child(3) .step-number, .step:nth-child(3) p { color: rgba(243, 241, 233, .6); }
+    .step:nth-child(3) .step-number::after { border-color: rgba(243, 241, 233, .2); }
+
+    .feature-wrap { display: grid; grid-template-columns: .85fr 1.15fr; gap: 78px; align-items: center; }
+    .feature-copy h2 { max-width: 500px; margin-bottom: 21px; font-size: clamp(2.8rem, 5.5vw, 5.25rem); line-height: .92; letter-spacing: -.08em; }
+    .feature-copy > p { max-width: 470px; color: var(--muted); font-size: 1rem; line-height: 1.65; }
+    .feature-list { display: grid; gap: 0; margin: 36px 0 0; padding: 0; list-style: none; }
+    .feature-list li { display: grid; grid-template-columns: 27px 1fr; gap: 13px; padding: 18px 0; border-top: 1px solid var(--line); }
+    .feature-list li::before { content: "✓"; display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; background: var(--signal); font-size: .82rem; font-weight: 900; }
+    .feature-list strong { display: block; margin-bottom: 4px; font-size: .92rem; }
+    .feature-list span { color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .dashboard { position: relative; min-height: 510px; padding: 18px; border-radius: var(--radius-lg); background: var(--paper-deep); overflow: hidden; }
+    .dashboard::after { content: ""; position: absolute; right: -85px; bottom: -100px; width: 275px; height: 275px; border-radius: 50%; background: var(--signal); opacity: .8; }
+    .dashboard-window { position: relative; z-index: 1; max-width: 570px; margin: 0 auto; padding: 16px; border-radius: 19px; background: var(--ink); box-shadow: var(--shadow); }
+    .window-bar { display: flex; gap: 6px; padding: 2px 0 17px 3px; }
+    .window-bar i { width: 7px; height: 7px; border-radius: 50%; background: rgba(243, 241, 233, .35); }
+    .window-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 12px; }
+    .filter-panel { padding: 16px; border-radius: 13px; background: rgba(243, 241, 233, .1); }
+    .filter-label { color: rgba(243, 241, 233, .52); font-size: .63rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .filter-panel h3 { margin: 10px 0 22px; color: var(--paper); font-size: 1.14rem; letter-spacing: -.045em; }
+    .filter-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid rgba(243, 241, 233, .12); color: rgba(243, 241, 233, .76); font-size: .72rem; }
+    .filter-row b { color: var(--signal); font-size: .68rem; }
+    .save-search { display: block; margin-top: 17px; padding: 10px; border-radius: 8px; background: var(--signal); color: var(--ink); text-align: center; font-size: .69rem; font-weight: 850; }
+    .message-panel { display: flex; align-items: end; min-height: 330px; padding: 13px; border-radius: 13px; background: #b9d89a; background-image: radial-gradient(rgba(22, 34, 29, .08) 1px, transparent 1px); background-size: 15px 15px; }
+    .message-stack { display: grid; gap: 8px; width: 100%; }
+    .message-meta { color: rgba(22, 34, 29, .58); font-size: .62rem; }
+    .message { max-width: 92%; padding: 13px; border-radius: 13px 13px 13px 3px; background: var(--paper); box-shadow: 0 5px 10px rgba(22, 34, 29, .08); }
+    .message small { display: block; margin-bottom: 7px; color: var(--blue); font-size: .61rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .message strong { display: block; margin-bottom: 5px; font-size: .82rem; letter-spacing: -.02em; }
+    .message p { margin-bottom: 0; color: var(--muted); font-size: .69rem; line-height: 1.45; }
+
+    .trust-band { background: var(--ink); color: var(--paper); }
+    .trust-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; align-items: start; }
+    .trust-grid h2 { max-width: 470px; margin-bottom: 0; font-size: clamp(2.7rem, 5.2vw, 5rem); line-height: .94; letter-spacing: -.075em; }
+    .trust-grid h2 em { color: var(--signal); font-style: normal; }
+    .trust-copy > p { max-width: 510px; margin: 4px 0 30px; color: rgba(243, 241, 233, .64); font-size: 1rem; line-height: 1.65; }
+    .trust-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .trust-point { padding: 17px; border: 1px solid rgba(243, 241, 233, .14); border-radius: 14px; }
+    .trust-point b { display: block; margin-bottom: 8px; color: var(--signal); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+    .trust-point span { color: rgba(243, 241, 233, .64); font-size: .78rem; line-height: 1.45; }
+    .disclaimer { margin-top: 17px; padding: 15px 17px; border-left: 2px solid var(--orange); background: rgba(243, 241, 233, .06); color: rgba(243, 241, 233, .64); font-size: .74rem; line-height: 1.55; }
+
+    .faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
+    .faq-grid h2 { margin-bottom: 17px; font-size: clamp(2.8rem, 5vw, 4.8rem); line-height: .94; letter-spacing: -.075em; }
+    .faq-grid > div > p { max-width: 340px; color: var(--muted); font-size: .95rem; line-height: 1.6; }
+    .faq-list { border-top: 1px solid var(--line); }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; padding: 21px 0; border: 0; background: transparent; color: var(--ink); text-align: left; font: inherit; font-size: .96rem; font-weight: 780; cursor: pointer; }
+    .faq-question::after { content: "+"; font-size: 1.35rem; font-weight: 400; transition: transform .2s ease; }
+    .faq-item.open .faq-question::after { transform: rotate(45deg); }
+    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s ease; }
+    .faq-answer > div { overflow: hidden; }
+    .faq-answer p { max-width: 610px; margin: 0; padding: 0 35px 0 0; color: var(--muted); font-size: .88rem; line-height: 1.65; }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-item.open .faq-answer p { padding-bottom: 21px; }
+
+    .final-cta { padding: 0 0 120px; }
+    .cta-card { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 30px; padding: 52px; border-radius: var(--radius-lg); background: var(--signal); }
+    .cta-card::after { content: ""; position: absolute; right: 8%; top: -75px; width: 190px; height: 190px; border: 1px solid rgba(22, 34, 29, .16); border-radius: 50%; box-shadow: 0 0 0 25px rgba(22, 34, 29, .05), 0 0 0 52px rgba(22, 34, 29, .04); }
+    .cta-card h2 { position: relative; z-index: 1; max-width: 630px; margin-bottom: 0; font-size: clamp(2.6rem, 5vw, 4.8rem); line-height: .93; letter-spacing: -.08em; }
+    .cta-action { position: relative; z-index: 2; display: grid; justify-items: end; gap: 11px; }
+    .cta-action .button-primary { background: var(--ink); white-space: nowrap; }
+    .cta-action small { max-width: 205px; color: rgba(22, 34, 29, .66); font-size: .7rem; line-height: 1.4; text-align: right; }
+
+    footer { padding: 28px 0 38px; border-top: 1px solid var(--line); }
+    .footer-row { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: .72rem; line-height: 1.5; }
+    .footer-row strong { color: var(--ink); }
+    .footer-note { max-width: 660px; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .hero-grid, .feature-wrap, .trust-grid, .faq-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero { padding-top: 62px; }
+      .signal-stage { min-height: 500px; }
+      .feature-copy { max-width: 700px; }
+      .trust-grid { gap: 35px; }
+      .faq-grid { gap: 35px; }
+      .section-head { align-items: start; flex-direction: column; }
+      .cta-card { grid-template-columns: 1fr; padding: 40px 30px; }
+      .cta-action { justify-items: start; }
+      .cta-action small { text-align: left; }
+    }
+
+    @media (max-width: 680px) {
+      .shell { width: min(100% - 28px, 560px); }
+      .nav { min-height: 68px; }
+      .nav-links { position: absolute; left: 14px; right: 14px; top: 63px; display: grid; gap: 0; padding: 7px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: var(--shadow); opacity: 0; pointer-events: none; transform: translateY(-7px); transition: opacity .2s ease, transform .2s ease; }
+      .nav-links.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+      .nav-links a { padding: 13px 12px; }
+      .nav-cta { display: none; }
+      .menu-button { display: block; }
+      h1 { font-size: clamp(3.35rem, 17vw, 5rem); }
+      .hero-copy { font-size: 1rem; }
+      .hero-actions { align-items: start; flex-direction: column; gap: 8px; }
+      .signal-stage { min-height: 470px; }
+      .alert-card { width: calc(100% - 32px); margin-top: 48px; padding: 18px; }
+      .alert-card h2 { font-size: 2.1rem; }
+      .floating-tag { left: 17px; bottom: 20px; }
+      .stage-orbit { right: 15px; bottom: 15px; width: 105px; height: 105px; }
+      .stage-orbit::before { inset: 16px; }
+      .stage-orbit::after { inset: 34px; }
+      section { padding: 82px 0; }
+      .steps { grid-template-columns: 1fr; }
+      .step { min-height: 215px; }
+      .step-number { margin-bottom: 38px; }
+      .window-layout { grid-template-columns: 1fr; }
+      .filter-panel { display: none; }
+      .message-panel { min-height: 330px; }
+      .trust-points { grid-template-columns: 1fr; }
+      .cta-card h2 { font-size: 3rem; }
+      .footer-row { align-items: start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="brand" href="#top" aria-label="ShiftSignal home"><span class="brand-mark" aria-hidden="true"></span>ShiftSignal</a>
+      <nav class="nav-links" id="nav-links" aria-label="Primary navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#what-you-get">What you get</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="nav-cta" href="#join">Get Telegram alerts <span aria-hidden="true">↗</span></a>
+      <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">UK warehouse shift alerts</div>
+          <h1>When a shift opens, be <em>first</em> to know.</h1>
+          <p class="hero-copy">ShiftSignal sends clear, local warehouse job alerts to Telegram, so you spend less time refreshing pages and more time deciding what works for you.</p>
+          <div class="hero-actions">
+            <a class="button-primary" href="#join">Find ShiftSignal on Telegram <span aria-hidden="true">↗</span></a>
+            <a class="button-secondary" href="#how-it-works">See how it works <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="hero-note">Independent service. Not affiliated with Amazon or any employer.</div>
+        </div>
+
+        <div class="signal-stage reveal" aria-label="Example Telegram shift alert">
+          <div class="stage-top"><span>Signal preview</span><span class="live-pill">Live alert</span></div>
+          <div class="alert-card">
+            <div class="alert-kicker"><span>UK warehouse jobs alert</span><span class="telegram-dot" aria-hidden="true">➤</span></div>
+            <h2>Portadown, Northern Ireland</h2>
+            <p class="alert-location">A new warehouse opportunity matches your saved area.</p>
+            <div class="alert-meta"><span class="meta-chip">Evening shift</span><span class="meta-chip">Local area</span><span class="meta-chip">Check availability</span></div>
+            <div class="alert-footer"><span>Sent via <strong>Telegram</strong></span><span>just now</span></div>
+          </div>
+          <div class="floating-tag">A useful notification beats another hour of refreshing.</div>
+          <div class="stage-orbit" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-label="ShiftSignal benefits">
+      <div class="shell ticker-track"><span>Local-first alerts</span><span>Telegram-native delivery</span><span>Readable shift details</span><span>You stay in control</span></div>
+    </div>
+
+    <section id="how-it-works">
+      <div class="shell">
+        <div class="section-head reveal">
+          <h2>From search to shift, without the noise.</h2>
+          <p>Designed for people who want a faster way to hear about relevant warehouse work, without turning the whole day into a refresh loop.</p>
+        </div>
+        <div class="steps">
+          <article class="step reveal"><div class="step-number">01 / SET YOUR AREA</div><h3>Start with where you can actually work.</h3><p>Keep the search practical with local areas such as Portadown and nearby locations.</p></article>
+          <article class="step reveal"><div class="step-number">02 / GET THE SIGNAL</div><h3>Let Telegram bring the update to you.</h3><p>Receive a simple alert in the app you already check, instead of hunting through listings all day.</p></article>
+          <article class="step reveal"><div class="step-number">03 / DECIDE</div><h3>Review the details and take the next step.</h3><p>Use the alert as a shortcut to the information you need, then verify availability before applying.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="what-you-get">
+      <div class="shell feature-wrap">
+        <div class="feature-copy reveal">
+          <div class="eyebrow">Built for the moment it matters</div>
+          <h2>Less refreshing. More moving.</h2>
+          <p>ShiftSignal keeps the experience focused: relevant location, useful shift context, and a clear hand-off to the official application process.</p>
+          <ul class="feature-list">
+            <li><div><strong>Location-first alerts</strong><span>Make nearby opportunities easier to spot at a glance.</span></div></li>
+            <li><div><strong>Simple Telegram delivery</strong><span>Get notified where your messages already live.</span></div></li>
+            <li><div><strong>Readable shift context</strong><span>See the area, timing, and next action without decoding a wall of text.</span></div></li>
+            <li><div><strong>No false promises</strong><span>ShiftSignal surfaces information; you stay in control of every application.</span></div></li>
+          </ul>
+        </div>
+        <div class="dashboard reveal" aria-label="ShiftSignal filter and alert preview">
+          <div class="dashboard-window">
+            <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="window-layout">
+              <aside class="filter-panel"><div class="filter-label">Saved search</div><h3>My local shifts</h3><div class="filter-row"><span>Area</span><b>Portadown</b></div><div class="filter-row"><span>Shift</span><b>Any</b></div><div class="filter-row"><span>Status</span><b>Available</b></div><span class="save-search">Search saved</span></aside>
+              <div class="message-panel"><div class="message-stack"><div class="message-meta">UK Amazon warehouse jobs alert · 16:21</div><div class="message"><small>New shift signal</small><strong>Portadown, Northern Ireland</strong><p>Check the details, confirm it suits you, then apply through the official route.</p></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-band">
+      <div class="shell trust-grid">
+        <h2 class="reveal">Clear about what it is—and what it <em>isn't.</em></h2>
+        <div class="trust-copy reveal">
+          <p>ShiftSignal is an independent alert service for people looking for warehouse shifts. It is not an employer, recruitment agency, or Amazon product.</p>
+          <div class="trust-points"><div class="trust-point"><b>Independent</b><span>Built to help you notice opportunities, not to speak for an employer.</span></div><div class="trust-point"><b>Telegram-first</b><span>Alerts arrive in Telegram, with no separate dashboard to babysit.</span></div><div class="trust-point"><b>Verify first</b><span>Availability and terms can change, so always confirm before applying.</span></div></div>
+          <div class="disclaimer">Amazon and other employer names are used only to describe the type of work being alerted. ShiftSignal is not affiliated with, endorsed by, or sponsored by Amazon or any employer named in an alert.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="shell faq-grid">
+        <div class="reveal"><div class="eyebrow">Questions, answered</div><h2>Know before you join.</h2><p>A straightforward service should come with straightforward expectations.</p></div>
+        <div class="faq-list reveal">
+          <div class="faq-item open"><button class="faq-question" type="button" aria-expanded="true">What is ShiftSignal?</button><div class="faq-answer"><div><p>ShiftSignal is an independent Telegram alert service that helps people spot UK warehouse shift opportunities and decide what to do next.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false">Is ShiftSignal affiliated with Amazon?</button><div class="faq-answer"><div><p>No. ShiftSignal is independent and is not affiliated with, endorsed by, or sponsored by Amazon. Employer names may appear only to describe the work in an alert.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false">Do I apply inside Telegram?</button><div class="faq-answer"><div><p>Telegram is used for the alert. When you see something relevant, verify the details and use the official application route for that opportunity.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false">What kind of details will I see?</button><div class="faq-answer"><div><p>Alerts are designed to make the useful basics easy to scan, such as the local area, shift context, and the next action. Exact availability can change.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false">Can I rely on every alert being available?</button><div class="faq-answer"><div><p>No service can guarantee availability. Treat each alert as a timely lead, then confirm the latest details before you apply.</p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta" id="join">
+      <div class="shell">
+        <div class="cta-card reveal">
+          <h2>Your next shift could start with one useful notification.</h2>
+          <div class="cta-action"><a class="button-primary" href="https://telegram.org/" target="_blank" rel="noopener">Open Telegram <span aria-hidden="true">↗</span></a><small>In Telegram, search for “UK Amazon warehouse jobs alert” to find the alert chat.</small></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-row"><div><strong>ShiftSignal</strong> · Telegram alerts for UK warehouse shifts</div><div class="footer-note">Independent service. Not affiliated with, endorsed by, or sponsored by Amazon or any employer named in an alert. Verify details before applying.</div></div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('#menu-button');
+    const navLinks = document.querySelector('#nav-links');
+    menuButton?.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    document.querySelectorAll('.nav-links a').forEach((link) => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }));
+
+    document.querySelectorAll('.faq-question').forEach((button) => button.addEventListener('click', () => {
+      const item = button.closest('.faq-item');
+      const isOpen = item.classList.toggle('open');
+      button.setAttribute('aria-expanded', String(isOpen));
+    }));
+
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    }), { threshold: .14 });
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
