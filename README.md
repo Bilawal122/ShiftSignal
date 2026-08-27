@@ -10,7 +10,7 @@ Static, responsive marketing pages for a Telegram bot that helps workers find an
 - `script.js` — consent-aware analytics loader and Telegram CTA events.
 - `privacy.html` and `terms.html` — plain-language launch policies for the independent service.
 - `robots.txt` and `sitemap.xml` — configured for the current GitHub Pages URL.
-- `assets/` — public Telegram captures and QR codes for the channel and bot showcase.
+- `assets/` — public Telegram captures, including the live hero and follow-up alert examples, plus QR codes for the channel and bot showcase.
 
 ## Run locally
 
