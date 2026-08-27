@@ -4,11 +4,41 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3f1e9">
+  <meta name="robots" content="index, follow">
   <meta name="description" content="ShiftSignal sends clear, local UK warehouse shift alerts to Telegram so you can spend less time refreshing and more time applying.">
   <meta property="og:title" content="ShiftSignal — Telegram alerts for UK warehouse shifts">
   <meta property="og:description" content="Get local warehouse shift alerts in Telegram, with the details you need to decide what to do next.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bilawal122.github.io/ShiftSignal/">
+  <meta property="og:site_name" content="ShiftSignal">
+  <meta property="og:image" content="https://bilawal122.github.io/ShiftSignal/assets/telegram-alert.png">
+  <meta property="og:image:alt" content="Example ShiftSignal warehouse shift alert in Telegram">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ShiftSignal — Telegram alerts for UK warehouse shifts">
+  <meta name="twitter:description" content="Get local warehouse shift alerts in Telegram, with the details you need to decide what to do next.">
+  <meta name="twitter:image" content="https://bilawal122.github.io/ShiftSignal/assets/telegram-alert.png">
+  <link rel="canonical" href="https://bilawal122.github.io/ShiftSignal/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>ShiftSignal — Telegram alerts for UK warehouse shifts</title>
+  <script>
+    window.SHIFTSIGNAL_CONFIG = {
+      // Set googleTagId to G-... or AW-... to enable consent-gated analytics.
+      googleTagId: '',
+      // Optional: add both values to record Telegram clicks as a Google Ads conversion.
+      googleAdsConversionId: '',
+      googleAdsConversionLabel: ''
+    };
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ShiftSignal",
+    "url": "https://bilawal122.github.io/ShiftSignal/",
+    "description": "Independent Telegram alerts for UK warehouse shift opportunities.",
+    "inLanguage": "en-GB"
+  }
+  </script>
   <style>
     :root {
       --ink: #16221d;
@@ -37,7 +67,10 @@
 
     a { color: inherit; text-decoration: none; }
     button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
     .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .skip-link { position: fixed; z-index: 30; top: 12px; left: 12px; padding: 10px 14px; border-radius: 8px; color: var(--ink); background: var(--signal); transform: translateY(-150%); transition: transform .2s ease; }
+    .skip-link:focus { transform: translateY(0); }
 
     .topbar {
       position: sticky;
@@ -191,6 +224,16 @@
     .footer-row { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: .72rem; line-height: 1.5; }
     .footer-row strong { color: var(--ink); }
     .footer-note { max-width: 660px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; }
+    .footer-links a { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-color: rgba(22, 34, 29, .25); text-underline-offset: 3px; }
+    .footer-links a:hover { text-decoration-color: currentColor; }
+    .cookie-notice { position: fixed; z-index: 25; right: 20px; bottom: 20px; left: 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 760px; margin: 0 auto; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: rgba(255, 255, 255, .96); box-shadow: 0 18px 50px rgba(22, 34, 29, .18); }
+    .cookie-notice p { max-width: 450px; margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+    .cookie-notice strong { display: block; margin-bottom: 3px; color: var(--ink); }
+    .cookie-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: end; gap: 10px; }
+    .cookie-actions button, .cookie-actions a { border: 0; border-radius: 999px; padding: 10px 13px; color: var(--ink); background: var(--paper-deep); font: inherit; font-size: .75rem; font-weight: 800; cursor: pointer; }
+    .cookie-actions button:first-child { color: var(--ink); background: var(--signal); }
+    .cookie-actions a { background: transparent; text-decoration: underline; text-underline-offset: 3px; }
 
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -281,10 +324,14 @@
       .qr-card { grid-template-columns: 112px 1fr; gap: 16px; padding: 13px; }
       .qr-copy h3 { font-size: 1.28rem; }
       .qr-copy p { font-size: .76rem; }
+      .cookie-notice { display: block; right: 12px; bottom: 12px; left: 12px; }
+      .cookie-actions { justify-content: start; margin-top: 12px; }
     }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.nav-cta, .button-primary, .button-secondary span, .cookie-notice { transition: none; } }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#top">Skip to content</a>
   <header class="topbar">
     <div class="shell nav">
       <a class="brand" href="#top" aria-label="ShiftSignal home"><span class="brand-mark" aria-hidden="true"></span>ShiftSignal</a>
@@ -294,7 +341,7 @@
         <a href="#telegram">Telegram</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="nav-cta" href="#telegram">Get Telegram alerts <span aria-hidden="true">↗</span></a>
+      <a class="nav-cta" data-cta="homepage-nav-telegram" href="#telegram">Get Telegram alerts <span aria-hidden="true">↗</span></a>
       <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">☰</button>
     </div>
   </header>
@@ -307,7 +354,7 @@
           <h1>When a shift opens, be <em>first</em> to know.</h1>
           <p class="hero-copy">ShiftSignal sends clear, local warehouse job alerts to Telegram, so you spend less time refreshing pages and more time deciding what works for you.</p>
           <div class="hero-actions">
-            <a class="button-primary" href="#join">Find ShiftSignal on Telegram <span aria-hidden="true">↗</span></a>
+            <a class="button-primary" data-cta="homepage-hero-telegram" href="#join">Find ShiftSignal on Telegram <span aria-hidden="true">↗</span></a>
             <a class="button-secondary" href="#how-it-works">See how it works <span aria-hidden="true">→</span></a>
           </div>
           <div class="hero-note">Independent service. Not affiliated with Amazon or any employer.</div>
@@ -395,19 +442,19 @@
         <div class="telegram-grid">
           <article class="telegram-card telegram-card-featured reveal">
             <figure class="telegram-shot">
-              <img src="assets/telegram-channel.png" alt="Telegram channel feed showing UK warehouse shift alerts" loading="lazy">
+              <img src="assets/telegram-channel.png" alt="Telegram channel feed showing UK warehouse shift alerts" width="1568" height="842" loading="lazy" decoding="async">
               <figcaption><span class="telegram-label">PUBLIC CHANNEL</span><strong>See the latest shift posts in one place.</strong><span>Open feed · location-first alerts · public updates</span></figcaption>
             </figure>
           </article>
           <article class="telegram-card reveal">
             <figure class="telegram-shot">
-              <img src="assets/telegram-bot.png" alt="Telegram bot start screen for Amazon warehouse jobs UK" loading="lazy">
+              <img src="assets/telegram-bot.png" alt="Telegram bot start screen for UK warehouse shift alerts" width="1568" height="1195" loading="lazy" decoding="async">
               <figcaption><span class="telegram-label">START THE BOT</span><strong>Begin with a simple Telegram chat.</strong><span>Open the bot · follow the setup flow · stay in control</span></figcaption>
             </figure>
           </article>
           <article class="telegram-card reveal">
             <figure class="telegram-shot">
-              <img src="assets/telegram-alert.png" alt="Telegram alert showing a Portadown warehouse shift with pay and schedule details" loading="lazy">
+              <img src="assets/telegram-alert.png" alt="Telegram alert showing a Portadown warehouse shift with pay and schedule details" width="1568" height="1197" loading="lazy" decoding="async">
               <figcaption><span class="telegram-label">EXAMPLE ALERT</span><strong>Scan the details before you decide.</strong><span>Area · pay · hours · current status</span></figcaption>
             </figure>
           </article>
@@ -416,13 +463,13 @@
         <div class="telegram-join-grid">
           <article class="qr-card reveal">
             <a class="qr-art" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram channel">
-              <img src="assets/qr-channel.png" alt="QR code to open the ShiftSignal Telegram channel" loading="lazy">
+              <img src="assets/qr-channel.png" alt="QR code to open the ShiftSignal Telegram channel" width="518" height="518" loading="lazy" decoding="async">
             </a>
             <div class="qr-copy"><div class="eyebrow">Channel</div><h3>Follow the public feed.</h3><p>See new warehouse shift posts as they appear.</p><a class="button-secondary" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener">Open channel <span aria-hidden="true">↗</span></a></div>
           </article>
           <article class="qr-card qr-card-accent reveal">
             <a class="qr-art" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram bot">
-              <img src="assets/qr-bot.png" alt="QR code to open the ShiftSignal Telegram bot" loading="lazy">
+              <img src="assets/qr-bot.png" alt="QR code to open the ShiftSignal Telegram bot" width="518" height="518" loading="lazy" decoding="async">
             </a>
             <div class="qr-copy"><div class="eyebrow">Bot</div><h3>Get a more personal route.</h3><p>Start the bot and use Telegram to manage your alert preferences.</p><a class="button-secondary" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener">Start the bot <span aria-hidden="true">↗</span></a></div>
           </article>
@@ -448,14 +495,14 @@
       <div class="shell">
         <div class="cta-card reveal">
           <h2>Your next shift could start with one useful notification.</h2>
-          <div class="cta-action"><a class="button-primary" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener">Start the alert bot <span aria-hidden="true">↗</span></a><small>Prefer the public feed? <a class="inline-link" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener">Follow the channel instead.</a></small></div>
+          <div class="cta-action"><a class="button-primary" data-cta="homepage-final-telegram" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener">Start the alert bot <span aria-hidden="true">↗</span></a><small>Prefer the public feed? <a class="inline-link" data-cta="homepage-final-channel" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener">Follow the channel instead.</a></small></div>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="shell footer-row"><div><strong>ShiftSignal</strong> · Telegram alerts for UK warehouse shifts</div><div class="footer-note">Independent service. Not affiliated with, endorsed by, or sponsored by Amazon or any employer named in an alert. Verify details before applying.</div></div>
+    <div class="shell footer-row"><div><strong>ShiftSignal</strong> · Telegram alerts for UK warehouse shifts<div class="footer-links"><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of use</a></div></div><div class="footer-note">Independent service. Not affiliated with, endorsed by, or sponsored by Amazon or any employer named in an alert. Verify details before applying.</div></div>
   </footer>
 
   <script>
@@ -464,11 +511,13 @@
     menuButton?.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('open');
       menuButton.setAttribute('aria-expanded', String(isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
     });
 
     document.querySelectorAll('.nav-links a').forEach((link) => link.addEventListener('click', () => {
       navLinks.classList.remove('open');
       menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Open navigation');
     }));
 
     document.querySelectorAll('.faq-question').forEach((button) => button.addEventListener('click', () => {
@@ -485,5 +534,6 @@
     }), { threshold: .14 });
     document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
   </script>
+  <script src="script.js" defer></script>
 </body>
 </html>

@@ -7,9 +7,9 @@ Static, responsive marketing pages for a Telegram bot that helps workers find an
 - `index.html` — brand homepage with the full product story.
 - `landing.html` — focused, ad-friendly campaign page with a shorter path to Telegram.
 - `styles.css` — responsive design system, layout, and components.
-- `script.js` — mobile navigation and analytics-ready CTA events.
-- `privacy.html` and `terms.html` — clearly marked launch placeholders.
-- `robots.txt` and `sitemap.xml` — SEO starter files; replace `example.com`.
+- `script.js` — consent-aware analytics loader and Telegram CTA events.
+- `privacy.html` and `terms.html` — plain-language launch policies for the independent service.
+- `robots.txt` and `sitemap.xml` — configured for the current GitHub Pages URL.
 - `assets/` — public Telegram captures and QR codes for the channel and bot showcase.
 
 ## Run locally
@@ -23,14 +23,14 @@ python3 -m http.server 4173
 
 Then visit `http://127.0.0.1:4173/`.
 
-## Before launch
+## Launch status
 
 1. The Telegram showcase uses the live public channel at `https://t.me/Amazonwarehousejobb` and bot at `https://t.me/Amazon_warehouse_ukbot`.
-2. Replace `example.com` in `robots.txt` and `sitemap.xml` with the real domain.
-3. Replace `hello@example.com` with a monitored support address.
-4. Finalize `privacy.html` and `terms.html` with qualified legal review. The current pages are placeholders, not legal advice.
-5. Add a consent-aware Google tag or Google Tag Manager snippet before the closing `</head>` tag. `script.js` already emits `telegram_click` with a `cta_location` value when `gtag` or `dataLayer` is present.
-6. Add canonical URLs and Open Graph image assets once the domain is known.
+2. The current public base URL is `https://bilawal122.github.io/ShiftSignal/`; canonical tags, Open Graph URLs, robots, and the sitemap all point there.
+3. The privacy and terms pages have plain-language coverage for the current independent Telegram alert service. Have a qualified adviser review them before scaling paid traffic.
+4. Analytics is disabled by default. To enable it, set `googleTagId` in the `window.SHIFTSIGNAL_CONFIG` block in `index.html` and `landing.html`.
+5. Optional Google Ads conversion tracking uses `googleAdsConversionId` and `googleAdsConversionLabel` in the same config block. The cookie notice appears only when analytics is configured.
+6. Use `landing.html` as the Google Ads destination while testing intent-specific campaigns.
 
 The homepage and campaign page now include a Telegram showcase with channel, bot, and example-alert captures, plus separate QR codes that link directly to the public destinations.
 
