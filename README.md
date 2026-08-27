@@ -28,8 +28,8 @@ Then visit `http://127.0.0.1:4173/`.
 1. The Telegram showcase uses the live public channel at `https://t.me/Amazonwarehousejobb` and bot at `https://t.me/Amazon_warehouse_ukbot`.
 2. The public base URL is `https://shiftsignal.co.uk/`; GitHub Pages has the custom domain saved and the `CNAME` file is committed.
 3. The privacy and terms pages have plain-language coverage for the current independent Telegram alert service. Have a qualified adviser review them before scaling paid traffic.
-4. Analytics is disabled by default. To enable it, set `googleTagId` in the `window.SHIFTSIGNAL_CONFIG` block in `index.html` and `landing.html`.
-5. Optional Google Ads conversion tracking uses `googleAdsConversionId` and `googleAdsConversionLabel` in the same config block. The cookie notice appears only when analytics is configured.
+4. The Google Ads tag is installed site-wide with consent denied by default; the homepage and campaign page show the optional analytics notice before enabling measurement.
+5. Google Ads conversion tracking records consented Telegram CTA hand-offs through the `Telegram CTA Click` action. The conversion value is `£1` per hand-off.
 6. Use `landing.html` as the Google Ads destination while testing intent-specific campaigns.
 
 The homepage and campaign page now include a Telegram showcase with channel, bot, and example-alert captures, plus separate QR codes that link directly to the public destinations.

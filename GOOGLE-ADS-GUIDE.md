@@ -104,19 +104,18 @@ Avoid claims such as `guaranteed shifts`, `official Amazon alerts`, `instant hir
 
 ## 8. Conversion tracking
 
-The site already has consent-aware hooks in `script.js`:
+The site now has a consent-aware Google Ads tag and event wiring:
 
-- `googleTagId` loads the Google tag after consent.
-- `googleAdsConversionId` and `googleAdsConversionLabel` send the `conversion` event when both values are present.
-- Telegram CTAs emit a `telegram_click` event with a `cta_location` value.
+- The Google tag is installed once in the `<head>` of every HTML page with consent denied by default.
+- `script.js` updates consent only after an explicit opt-in and sends the `conversion` event with the configured ID, label, `£1` value, and `GBP` currency.
+- Telegram destinations emit `telegram_click`; internal jump links emit `cta_click`, so section navigation is not counted as a conversion.
+- Same-tab Telegram links wait briefly for the Ads callback, with a timeout fallback so navigation still completes.
 
-Before enabling tracking:
+Before scaling tracking:
 
-1. Create the conversion action in Google Ads.
-2. Copy the tag ID and conversion ID/label into the configuration blocks in `index.html` and `landing.html`.
-3. Confirm the privacy notice, consent behavior, and policy wording are appropriate for the audience and jurisdiction.
-4. Test with Google Tag Assistant or the current Google Ads diagnostics.
-5. Mark the conversion as a primary goal only if it represents a meaningful business outcome. Otherwise keep it secondary while you learn.
+1. Confirm the privacy notice, consent behavior, and policy wording are appropriate for the audience and jurisdiction.
+2. Test with Google Tag Assistant or the current Google Ads diagnostics.
+3. Mark the conversion as a primary goal only if it represents a meaningful business outcome. Otherwise keep it secondary while you learn.
 
 The current click event measures a hand-off to Telegram. It does not verify a bot start, subscription, application, or successful shift placement.
 
