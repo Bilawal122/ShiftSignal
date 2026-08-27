@@ -7,6 +7,9 @@
     ...(window.SHIFTSIGNAL_CONFIG || {})
   };
   const analyticsTagId = config.googleTagId || config.googleAdsConversionId;
+  const conversionSendTo = config.googleAdsConversionId && config.googleAdsConversionLabel
+    ? `${config.googleAdsConversionId}/${config.googleAdsConversionLabel}`
+    : '';
   const consentKey = 'shiftsignal_analytics_consent';
 
   const readConsent = () => {
@@ -35,37 +38,71 @@
     window.gtag = window.gtag || function gtag() {
       window.dataLayer.push(arguments);
     };
-    window.gtag('js', new Date());
-    window.gtag('config', analyticsTagId, { anonymize_ip: true });
+    window.gtag('consent', 'update', {
+      ad_storage: 'granted',
+      analytics_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted'
+    });
     window.__shiftsignalAnalyticsReady = true;
-
-    if (!document.querySelector('script[data-shiftsignal-google-tag]')) {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsTagId)}`;
-      script.dataset.shiftsignalGoogleTag = 'true';
-      document.head.appendChild(script);
-    }
   };
 
   const analyticsReady = () => window.__shiftsignalAnalyticsReady || config.allowExistingDataLayer;
 
-  const trackCta = (location) => {
+  const sendEvent = (eventName, eventParams) => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, eventParams);
+    } else if (Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({ event: eventName, ...eventParams });
+    }
+  };
+
+  const sendConversion = (eventParams) => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', eventParams);
+    } else if (Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({ event: 'conversion', ...eventParams });
+    }
+  };
+
+  const trackCta = (link, event) => {
     if (!analyticsReady()) {
       return;
     }
 
-    const eventParams = { cta_location: location };
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'telegram_click', eventParams);
-      if (config.googleAdsConversionId && config.googleAdsConversionLabel) {
-        window.gtag('event', 'conversion', {
-          send_to: `${config.googleAdsConversionId}/${config.googleAdsConversionLabel}`
-        });
-      }
-    } else if (Array.isArray(window.dataLayer)) {
-      window.dataLayer.push({ event: 'telegram_click', ...eventParams });
+    const isTelegramDestination = link.hostname === 't.me' || link.hostname === 'telegram.me';
+    const eventParams = {
+      cta_location: link.dataset.cta || 'telegram_cta',
+      link_url: link.href
+    };
+    sendEvent(isTelegramDestination ? 'telegram_click' : 'cta_click', eventParams);
+
+    if (!isTelegramDestination || !conversionSendTo) {
+      return;
     }
+
+    const conversionParams = {
+      send_to: conversionSendTo,
+      value: 1.0,
+      currency: 'GBP'
+    };
+
+    if (link.target === '_blank') {
+      sendConversion(conversionParams);
+      return;
+    }
+
+    event.preventDefault();
+    let hasNavigated = false;
+    const navigate = () => {
+      if (hasNavigated) {
+        return;
+      }
+      hasNavigated = true;
+      window.location.assign(link.href);
+    };
+    sendConversion({ ...conversionParams, event_callback: navigate });
+    window.setTimeout(navigate, 750);
   };
 
   const showConsentNotice = () => {
@@ -99,7 +136,7 @@
   };
 
   document.querySelectorAll('[data-cta]').forEach((link) => {
-    link.addEventListener('click', () => trackCta(link.dataset.cta || 'telegram_cta'));
+    link.addEventListener('click', (event) => trackCta(link, event));
   });
 
   if (readConsent() === 'accepted') {

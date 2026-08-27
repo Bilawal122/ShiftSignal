@@ -22,13 +22,26 @@
   <title>ShiftSignal — Telegram alerts for UK warehouse shifts</title>
   <script>
     window.SHIFTSIGNAL_CONFIG = {
-      // Set googleTagId to G-... or AW-... to enable consent-gated analytics.
-      googleTagId: '',
-      // Optional: add both values to record Telegram clicks as a Google Ads conversion.
-      googleAdsConversionId: '',
-      googleAdsConversionLabel: ''
+      googleTagId: 'AW-18413436878',
+      googleAdsConversionId: 'AW-18413436878',
+      googleAdsConversionLabel: 'bNHRCJL86egcEM7_msxE'
     };
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function gtag() {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag('consent', 'default', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+    window.gtag('js', new Date());
+    window.gtag('config', window.SHIFTSIGNAL_CONFIG.googleTagId, { anonymize_ip: true });
+    window.__shiftsignalGoogleTagConfigured = true;
   </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18413436878"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -499,16 +512,16 @@
 
         <div class="telegram-join-grid">
           <article class="qr-card reveal">
-            <a class="qr-art" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram channel">
+            <a class="qr-art" data-cta="homepage-channel-qr" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram channel">
               <img src="assets/qr-channel.png" alt="QR code to open the ShiftSignal Telegram channel" width="518" height="518" loading="lazy" decoding="async">
             </a>
-            <div class="qr-copy"><div class="eyebrow">Channel</div><h3>Follow the public feed.</h3><p>See new warehouse shift posts as they appear.</p><a class="button-secondary" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener">Open channel <span aria-hidden="true">↗</span></a></div>
+            <div class="qr-copy"><div class="eyebrow">Channel</div><h3>Follow the public feed.</h3><p>See new warehouse shift posts as they appear.</p><a class="button-secondary" data-cta="homepage-channel-link" href="https://t.me/Amazonwarehousejobb" target="_blank" rel="noopener">Open channel <span aria-hidden="true">↗</span></a></div>
           </article>
           <article class="qr-card qr-card-accent reveal">
-            <a class="qr-art" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram bot">
+            <a class="qr-art" data-cta="homepage-bot-qr" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener" aria-label="Open the ShiftSignal Telegram bot">
               <img src="assets/qr-bot.png" alt="QR code to open the ShiftSignal Telegram bot" width="518" height="518" loading="lazy" decoding="async">
             </a>
-            <div class="qr-copy"><div class="eyebrow">Bot</div><h3>Get a more personal route.</h3><p>Start the bot and use Telegram to manage your alert preferences.</p><a class="button-secondary" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener">Start the bot <span aria-hidden="true">↗</span></a></div>
+            <div class="qr-copy"><div class="eyebrow">Bot</div><h3>Get a more personal route.</h3><p>Start the bot and use Telegram to manage your alert preferences.</p><a class="button-secondary" data-cta="homepage-bot-link" href="https://t.me/Amazon_warehouse_ukbot" target="_blank" rel="noopener">Start the bot <span aria-hidden="true">↗</span></a></div>
           </article>
         </div>
         <p class="telegram-disclaimer">ShiftSignal is independent. Telegram is used for delivery, and availability should always be checked before applying.</p>
