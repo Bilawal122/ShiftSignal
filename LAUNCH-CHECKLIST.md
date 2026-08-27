@@ -5,7 +5,7 @@ Updated August 27, 2026.
 ## Ready now
 
 - Homepage, campaign landing page, privacy policy, and terms of use are linked and crawlable.
-- Canonical, Open Graph, Twitter card, robots, sitemap, and basic structured data are configured for the current GitHub Pages URL.
+- Canonical, Open Graph, Twitter card, robots, sitemap, and basic structured data are configured for `https://shiftsignal.co.uk/`.
 - Telegram channel and bot links remain the live destinations, with QR codes and visible non-affiliation wording.
 - Analytics and Google Ads conversion hooks are present but disabled until IDs are added.
 - Image dimensions, lazy loading, async decoding, skip links, focus states, and descriptive link text are in place.
@@ -21,12 +21,11 @@ Updated August 27, 2026.
 4. In Google Ads, use `landing.html` as the initial destination and keep claims limited to alerts and discovery; do not imply guaranteed work or employer affiliation.
 5. Test the consent banner after adding IDs, accept analytics once, click each primary Telegram CTA, and confirm the expected event in the Google tag debugger.
 
-## Pointing a custom domain later
+## Custom domain status
 
-1. Choose the domain and add it in the repository’s GitHub Pages settings as the custom domain.
-2. For an apex domain, add the GitHub Pages A records shown by GitHub and any recommended IPv6 records. For a subdomain, add a CNAME pointing to `bilawal122.github.io`.
-3. Wait for DNS to propagate, then enable HTTPS in GitHub Pages once the certificate is available.
-4. Replace the current `bilawal122.github.io/ShiftSignal/` base in the canonical tags, Open Graph URLs, structured data, `robots.txt`, and `sitemap.xml`; then redeploy.
-5. Update Google Ads final URLs, Search Console, and analytics settings to the custom domain.
-
-No domain purchase or DNS change is included in this project.
+- GitHub Pages custom domain is saved as `shiftsignal.co.uk` and committed in `CNAME`.
+- Cloudflare nameservers are active, but DNS records still need to point at GitHub Pages.
+- Add `A` records for `@` to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, and `185.199.111.153`.
+- Add a `CNAME` for `www` to `Bilawal122.github.io`.
+- Wait for propagation, then enable Enforce HTTPS in GitHub Pages and verify both apex and `www`.
+- Use `https://shiftsignal.co.uk/landing.html` as the Google Ads final URL.

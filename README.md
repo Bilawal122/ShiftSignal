@@ -9,7 +9,7 @@ Static, responsive marketing pages for a Telegram bot that helps workers find an
 - `styles.css` — responsive design system, layout, and components.
 - `script.js` — consent-aware analytics loader and Telegram CTA events.
 - `privacy.html` and `terms.html` — plain-language launch policies for the independent service.
-- `robots.txt` and `sitemap.xml` — configured for the current GitHub Pages URL.
+- `robots.txt` and `sitemap.xml` — configured for the public custom domain.
 - `assets/` — public Telegram captures, including the live hero and follow-up alert examples, plus QR codes for the channel and bot showcase.
 
 ## Run locally
@@ -26,7 +26,7 @@ Then visit `http://127.0.0.1:4173/`.
 ## Launch status
 
 1. The Telegram showcase uses the live public channel at `https://t.me/Amazonwarehousejobb` and bot at `https://t.me/Amazon_warehouse_ukbot`.
-2. The current public base URL is `https://bilawal122.github.io/ShiftSignal/`; canonical tags, Open Graph URLs, robots, and the sitemap all point there.
+2. The public base URL is `https://shiftsignal.co.uk/`; GitHub Pages has the custom domain saved and the `CNAME` file is committed.
 3. The privacy and terms pages have plain-language coverage for the current independent Telegram alert service. Have a qualified adviser review them before scaling paid traffic.
 4. Analytics is disabled by default. To enable it, set `googleTagId` in the `window.SHIFTSIGNAL_CONFIG` block in `index.html` and `landing.html`.
 5. Optional Google Ads conversion tracking uses `googleAdsConversionId` and `googleAdsConversionLabel` in the same config block. The cookie notice appears only when analytics is configured.
@@ -36,11 +36,19 @@ The homepage and campaign page now include a Telegram showcase with channel, bot
 
 ## Suggested Google Ads setup
 
-- Send search traffic to `landing.html`, not the broader homepage.
+- Send search traffic to `https://shiftsignal.co.uk/landing.html`, not the broader homepage.
 - Keep ad groups tightly themed around terms such as `warehouse shift alerts`, `warehouse shift finder`, `find extra warehouse shifts`, and `Telegram shift alerts`.
 - Use the existing CTA locations to build a primary conversion named `telegram_click`.
 - Exclude terms that imply official Amazon ownership, hiring decisions, or guaranteed shifts unless the product truly supports them.
 - Keep the disclaimer visible on every page: ShiftSignal is independent and not affiliated with or endorsed by Amazon.
+
+## Domain connection
+
+- Cloudflare nameservers are active for `shiftsignal.co.uk`.
+- In Cloudflare DNS, add four `A` records for `@` pointing to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, and `185.199.111.153`.
+- Add a `CNAME` for `www` pointing to `Bilawal122.github.io`.
+- Keep these GitHub Pages records as DNS only while the certificate is issuing; then return to GitHub Pages and enable Enforce HTTPS.
+- Choose one primary host for ads and redirects. The recommended primary is `https://shiftsignal.co.uk/`.
 
 ## Quick competitive review
 
